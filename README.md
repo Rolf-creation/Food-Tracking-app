@@ -7,7 +7,7 @@ Die Web-App läuft weiterhin statisch auf GitHub Pages. Persönliche Trackingdat
 1. Den Inhalt dieses Ordners in Dein bestehendes `food-tracker`-Repository hochladen und die bisherigen Dateien ersetzen.
 2. `index.html` muss direkt im Hauptverzeichnis liegen.
 3. GitHub Pages bleibt wie bisher auf `main` + `/(root)`.
-4. Nach dem Deployment die App auf dem iPhone einmal vollständig schliessen und neu öffnen. Der PWA-Cache wurde auf Version 8 erhöht.
+4. Nach dem Deployment die App auf dem iPhone einmal vollständig schliessen und neu öffnen. Der PWA-Cache wurde auf Version 9 erhöht.
 
 ## 2. OpenAI API vorbereiten
 
@@ -56,7 +56,7 @@ Die Mengen und Nährwerte aus einem Foto sind Schätzungen. Besonders Öl, Sauce
 - Das Foto wird von dieser App nicht dauerhaft gespeichert.
 - Der OpenAI-API-Schlüssel ist nicht im GitHub-Pages-Code enthalten.
 
-## Version 8
+## Version 9
 
 - echte KI-Fotoanalyse vorbereitet und im Frontend integriert
 - verarbeitet Kamera- und Foto-Upload
@@ -66,3 +66,10 @@ Die Mengen und Nährwerte aus einem Foto sind Schätzungen. Besonders Öl, Sauce
 - unbekannte Lebensmittel werden als `Nicht zugeordnet` markiert
 - KI-Endpunkt und persönliches App-Token können direkt in der App konfiguriert werden
 - API-Key bleibt serverseitig im Cloudflare Worker
+
+
+## Version 9
+- Cloudflare-Endpunkt ist in der App bereits voreingetragen.
+- Der Hinweistext unter der Fotoanalyse wurde entfernt.
+- Die KI-Anweisung für gemischte/verarbeitete Gerichte wurde deutlich verschärft; solche Gerichte sollen in einzelne Zutaten zerlegt werden.
+- Standardmodell im Worker ist GPT-6.1 Sol mit hoher Bilddetailstufe.

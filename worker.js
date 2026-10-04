@@ -87,7 +87,28 @@ export default {
       return json({ error: "Bild ist zu gross" }, 413, cors);
     }
 
-    const prompt = `Analysiere das Foto einer Mahlzeit für ein persönliches Ernährungstagebuch.\n\nAufgaben:\n1. Erkenne das Gericht.\n2. Zerlege verarbeitete oder gemischte Speisen in einzelne plausible Zutaten. Beispiel: Ratatouille -> Zucchetti/Zucchini, Tomate, Knoblauch, Paprika/Peperoni, Zwiebel, Olivenöl, soweit sichtbar/plausibel.\n3. Schätze für jede Zutat die verzehrte Menge in Gramm. Bei Getränken entspricht 1 ml ungefähr 1 g.\n4. Schätze für genau diese Menge kcal, Protein, Kohlenhydrate und Fett.\n5. Gib pro Zutat eine Konfidenz von 0 bis 1 an.\n\nBenennung: Verwende wenn sinnvoll exakt einen Namen aus dieser persönlichen Lebensmittelliste: ${FOOD_LIST}. Wenn eine Zutat dort nicht vorkommt, verwende einen kurzen üblichen deutschen Namen.\n\nWichtig: Keine Zutaten erfinden, die aus Bild und Gericht nicht plausibel ableitbar sind. Unsichere Saucen, Öle oder Beilagen nur aufführen, wenn sie wahrscheinlich vorhanden sind. Mengen und Nährwerte sind ausdrücklich Schätzwerte. dish_name kurz auf Deutsch. notes nur mit einem kurzen Hinweis auf relevante Unsicherheiten; sonst leere Zeichenkette.`;
+    const prompt = `Analysiere dieses Foto einer Mahlzeit für ein persönliches Ernährungstagebuch.
+
+WICHTIG: Gemischte und verarbeitete Gerichte müssen in einzelne Zutaten zerlegt werden. Gib NICHT nur den Namen des Gerichts als Zutat zurück.
+
+Vorgehen:
+1. Bestimme zuerst das Hauptgericht bzw. die einzelnen Komponenten auf dem Teller.
+2. Bei zusammengesetzten Speisen (z. B. Ratatouille, Curry, Eintopf, Auflauf, Suppe, Sauce, Salat, Pasta-Gericht, Sandwich, Pizza) rekonstruiere die wahrscheinlichen Einzelzutaten anhand von Bildmerkmalen UND typischer Rezeptzusammensetzung.
+3. Zerlege auch Saucen, Dressings und Mischgemüse soweit sinnvoll. Beispiel Ratatouille: Zucchetti/Zucchini, Tomate, Paprika/Peperoni, Zwiebel, Knoblauch und typischerweise etwas Olivenöl.
+4. Zutaten, die nur aus Rezeptwissen abgeleitet und im Bild nicht klar sichtbar sind, dürfen aufgenommen werden, wenn sie für das erkannte Gericht sehr typisch sind. Setze dann eine niedrigere confidence.
+5. Schätze für jede einzelne Zutat die verzehrte Menge in Gramm. Bei Getränken entspricht 1 ml ungefähr 1 g.
+6. Schätze für genau diese Menge kcal, Protein, Kohlenhydrate und Fett.
+7. Gib pro Zutat confidence von 0 bis 1 an.
+
+Benennung: Verwende wenn sinnvoll exakt einen Namen aus dieser persönlichen Lebensmittelliste: ${FOOD_LIST}. Wenn eine Zutat dort nicht vorkommt, verwende einen kurzen üblichen deutschen Namen.
+
+Qualitätsregeln:
+- Keine Sammelbegriffe wie "Gemüse", "Sauce", "Ratatouille" oder "Curry" als einzige Zutat, wenn eine Aufschlüsselung möglich ist.
+- Lieber 4–8 plausible Einzelzutaten als 1 Sammelbegriff.
+- Keine exotischen oder untypischen Zutaten erfinden.
+- Öl, Butter, Rahm oder Zucker nur aufnehmen, wenn für das erkannte Gericht plausibel; bei Unsicherheit confidence reduzieren.
+- dish_name kurz auf Deutsch.
+- notes nur für relevante Unsicherheiten; sonst leere Zeichenkette.`
 
     const apiResponse = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
@@ -96,13 +117,14 @@ export default {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: env.OPENAI_MODEL || "gpt-6-luna",
-        max_output_tokens: 1800,
+        model: env.OPENAI_MODEL || "gpt-6.1-sol",
+        max_output_tokens: 2200,
+        reasoning: { effort: "medium" },
         input: [{
           role: "user",
           content: [
             { type: "input_text", text: prompt },
-            { type: "input_image", image_url: image, detail: "auto" }
+            { type: "input_image", image_url: image, detail: "high" }
           ]
         }],
         text: {
