@@ -1,4 +1,4 @@
-const CACHE = 'food-tracker-v9';
+const CACHE = 'food-tracker-v9-gemini';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {

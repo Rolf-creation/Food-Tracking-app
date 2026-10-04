@@ -3,7 +3,9 @@ main = "worker.js"
 compatibility_date = "2026-10-04"
 
 [vars]
-# Exakt Deine GitHub-Pages-Origin eintragen, ohne abschliessenden Slash:
-# ALLOWED_ORIGIN = "https://DEINNAME.github.io"
-# Optional anderes Modell:
-# OPENAI_MODEL = "gpt-6-luna"
+ALLOWED_ORIGIN = "https://DEIN-GITHUB-NAME.github.io"
+GEMINI_MODEL = "gemini-3-flash-preview"
+
+# Secrets bitte mit Cloudflare hinterlegen:
+# GEMINI_API_KEY
+# APP_TOKEN
