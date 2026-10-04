@@ -1,0 +1,9 @@
+name = "food-tracker-ai"
+main = "worker.js"
+compatibility_date = "2026-10-04"
+
+[vars]
+# Exakt Deine GitHub-Pages-Origin eintragen, ohne abschliessenden Slash:
+# ALLOWED_ORIGIN = "https://DEINNAME.github.io"
+# Optional anderes Modell:
+# OPENAI_MODEL = "gpt-6-luna"
