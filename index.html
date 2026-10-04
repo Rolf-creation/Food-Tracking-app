@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2f6f59" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Food Tracker" />
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+<link rel="manifest" href="./manifest.webmanifest" />
+<title>Mein Food Tracker</title>
+<style>
+:root{--bg:#f5f7f5;--card:#fff;--text:#17211c;--muted:#6e7a73;--green:#9acd32;--yellow:#ffe84d;--orange:#f36b22;--accent:#2f6f59;--line:#dde5df;--shadow:0 8px 24px rgba(0,0,0,.07)}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);padding-bottom:92px}
+header{position:sticky;top:0;z-index:5;background:rgba(245,247,245,.92);backdrop-filter:blur(12px);padding:16px 18px 10px;border-bottom:1px solid var(--line)}
+header h1{font-size:22px;margin:0} header p{margin:4px 0 0;color:var(--muted);font-size:13px}.wrap{max-width:760px;margin:0 auto;padding:16px}.card{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px}.row{display:flex;gap:10px;align-items:center}.spread{display:flex;justify-content:space-between;gap:12px;align-items:center}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{background:#f8faf8;border:1px solid var(--line);border-radius:14px;padding:12px}.metric b{display:block;font-size:22px}.metric span{color:var(--muted);font-size:12px}.btn{border:0;border-radius:14px;padding:13px 15px;font-weight:700;font-size:15px;background:var(--accent);color:white;cursor:pointer}.btn.secondary{background:#e8efe9;color:var(--accent)}.btn.danger{background:#fff0ea;color:#a53e0c}.btn.full{width:100%}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:700}.allowed{background:#e8f5c7;color:#456700}.rare{background:#fff8b7;color:#795f00}.forbidden{background:#ffe0cf;color:#a13700}.muted{color:var(--muted)} h2{font-size:18px;margin:0 0 12px} h3{font-size:15px;margin:0 0 8px}.small{font-size:12px}.entry{padding:12px 0;border-top:1px solid var(--line)}.entry:first-child{border-top:0}.foodline{display:flex;justify-content:space-between;gap:10px;align-items:start}.foodmeta{font-size:12px;color:var(--muted);margin-top:4px}input,select,textarea{width:100%;padding:12px;border:1px solid #cfd9d1;border-radius:12px;font:inherit;background:white}label{display:block;font-size:12px;font-weight:700;margin:10px 0 6px;color:#405048}.range-row{display:grid;grid-template-columns:1fr 44px;gap:10px;align-items:center}.range-row input[type=range]{padding:0}.valuebox{text-align:center;font-weight:700;background:#eef3ef;border-radius:10px;padding:8px}.camera{border:2px dashed #b8c7bc;border-radius:18px;padding:18px;text-align:center;background:#fbfcfb}.camera img{max-width:100%;border-radius:14px;margin-top:12px}.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px max(8px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));z-index:9}.nav button{border:0;background:none;font-size:11px;color:#6c776f;padding:8px 2px}.nav button.active{color:var(--accent);font-weight:800}.nav .cam{background:var(--accent);color:white;border-radius:50%;width:52px;height:52px;margin:-22px auto 0;font-size:24px;box-shadow:0 8px 20px rgba(47,111,89,.3)}.hidden{display:none!important}.foodpicker{max-height:240px;overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:8px}.foodpicker button{width:100%;display:flex;justify-content:space-between;border:0;border-bottom:1px solid var(--line);background:white;padding:11px 12px;text-align:left}.foodpicker button:last-child{border-bottom:0}.scorebar{height:8px;border-radius:99px;background:#eef2ee;overflow:hidden;margin-top:6px}.scorebar span{display:block;height:100%;background:var(--accent)}.notice{background:#eef6f1;border-radius:14px;padding:12px;font-size:13px;color:#375446}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:12px}.tabs button{white-space:nowrap;border:0;border-radius:999px;padding:8px 11px;background:#e8eee9}.tabs button.active{background:var(--accent);color:white}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:#1e2a24;color:white;padding:10px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1}.right{text-align:right}.week-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.week-total{grid-column:1/-1;text-align:center}.week-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.week-col{border:1px solid var(--line);border-radius:14px;padding:10px;min-width:0}.week-col h3{text-align:center;margin-bottom:8px}.week-food{padding:8px 0;border-top:1px solid var(--line)}.week-food:first-of-type{border-top:0}.week-food b{display:block;font-size:13px;overflow-wrap:anywhere}.week-food .foodmeta{font-size:11px}.dishbox{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f8faf8}@media(min-width:680px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header><h1>Mein Food Tracker</h1><p id="todayLabel"></p></header>
+<div class="wrap">
+<div id="envWarning" class="card hidden" style="border:1px solid #f1c36a;background:#fff8e8"></div>
+<section id="view-today">
+  <div class="card" id="morningCard"></div>
+  <div class="card">
+    <div class="spread"><h2>Heute</h2><button class="btn secondary" onclick="go('camera')">📷 Mahlzeit</button></div>
+    <div class="grid" id="todayMetrics"></div>
+  </div>
+  <div class="card"><h2>Heutige Mahlzeiten</h2><div id="todayMeals"></div></div>
+</section>
+
+<section id="view-week" class="hidden">
+  <div class="card"><h2>Diese Woche</h2><div class="week-summary" id="weekMetrics"></div></div>
+  <div class="card"><h2>Verzehrte Lebensmittel</h2><div class="week-columns" id="weekFoods"></div></div>
+</section>
+
+<section id="view-camera" class="hidden">
+  <div class="card"><h2>Mahlzeit per Foto erfassen</h2>
+    <div class="camera">
+      <div>📷 Foto aufnehmen oder auswählen</div>
+      <input id="photoInput" type="file" accept="image/*" capture="environment" style="margin-top:12px" />
+      <img id="photoPreview" class="hidden" alt="Vorschau" />
+    </div>
+    <div class="notice" style="margin-top:12px"><b>Testversion:</b> Die Kamera ist aktiv. Eine echte KI-Bildanalyse ist in dieser lokalen Version noch nicht angebunden. Die App ist aber bereits für zusammengesetzte Gerichte vorbereitet: Eine KI kann später z. B. „Ratatouille“ erkennen und in einzelne Zutaten wie Zucchetti, Tomate, Knoblauch und Peperoni zerlegen. Lebensmittel, die nicht in Deiner Testliste vorkommen, werden dabei als „nicht zugeordnet“ markiert.</div>
+    <div class="dishbox">
+      <h3>Verarbeitetes Gericht testen</h3>
+      <div class="small muted">Für den Prototyp kannst Du die Zerlegung bekannter Gerichte simulieren. Beispiel: Ratatouille.</div>
+      <div class="row" style="margin-top:8px"><input id="dishName" placeholder="z. B. Ratatouille"><button class="btn secondary" onclick="decomposeDish()">Zerlegen</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Lebensmittel hinzufügen</h2>
+    <input id="foodSearch" placeholder="Lebensmittel suchen …" oninput="renderFoodPicker()" />
+    <div id="foodPicker" class="foodpicker"></div>
+  </div>
+  <div class="card"><h2>Aktuelle Mahlzeit</h2><div id="draftMeal"></div><button class="btn full" onclick="saveMeal()">Mahlzeit speichern</button></div>
+</section>
+
+<section id="view-analysis" class="hidden">
+  <div class="card"><h2>30-Tage-Analyse</h2><div class="grid" id="analysisMetrics"></div></div>
+  <div class="card"><h2>Reaktionen</h2><div id="reactionSummary"></div></div>
+  <div class="card"><h2>Körperentwicklung</h2><div id="bodySummary"></div></div>
+</section>
+
+<section id="view-profile" class="hidden">
+  <div class="card"><h2>Morgen-Check-in</h2><div id="reactionForm"></div></div>
+  <div class="card"><h2>Körpermessung</h2>
+    <div class="grid"><div><label>Gewicht (kg)</label><input id="weight" type="number" step="0.1" inputmode="decimal"></div><div><label>Bauchumfang (cm)</label><input id="waist" type="number" step="0.1" inputmode="decimal"></div></div>
+    <button class="btn full" style="margin-top:12px" onclick="saveBody()">Messung speichern</button><div id="bodyHistory" style="margin-top:12px"></div>
+  </div>
+  <div class="card"><h2>Persönliche Lebensmittelliste</h2><input id="listSearch" placeholder="Liste durchsuchen …" oninput="renderFoodList()"><div id="foodList" style="margin-top:8px"></div></div>
+  <div class="card"><h2>Daten</h2><button class="btn secondary full" onclick="exportData()">Daten exportieren (JSON)</button><button class="btn danger full" style="margin-top:8px" onclick="resetData()">Alle Trackingdaten löschen</button></div>
+</section>
+</div>
+<nav class="nav">
+<button data-view="today" class="active" onclick="go('today')">◉<br>Heute</button>
+<button data-view="week" onclick="go('week')">▦<br>Woche</button>
+<button onclick="go('camera')"><div class="cam">＋</div></button>
+<button data-view="analysis" onclick="go('analysis')">↗<br>Analyse</button>
+<button data-view="profile" onclick="go('profile')">⚙<br>Profil</button>
+</nav>
+<div id="toast" class="toast"></div>
+<script>
+const FOODS = [
+['Knoblauch',0.27,'allowed'],['Brokkoli',0.30,'allowed'],['Spinat',0.32,'allowed'],['Topfen/Quark/Yogurt',0.38,'allowed'],['Blumenkohl',0.39,'allowed'],['Tomate',0.45,'allowed'],['Zitrone',0.45,'allowed'],['Lachs',0.46,'allowed'],['Grüne Bohne',0.47,'allowed'],['Soja',0.47,'allowed'],['Forelle',0.49,'allowed'],['Tintenfisch',0.51,'allowed'],['Hirse',0.52,'allowed'],['Gurke',0.53,'allowed'],['Kaffee',0.54,'allowed'],['Grapefruit',0.57,'allowed'],['Sonnenblumenöl',0.62,'allowed'],['Pfirsich',0.63,'allowed'],['Spargel',0.64,'allowed'],['Truthahn',0.64,'allowed'],['Thunfisch',0.67,'allowed'],['Karotte',0.70,'allowed'],['Zwiebel',0.71,'allowed'],['Hering',0.72,'allowed'],['Banane',0.76,'allowed'],['Dorsch',0.78,'allowed'],['Pflaume',0.80,'allowed'],['Honigmelone',0.82,'allowed'],['Erbse',0.88,'allowed'],['Schwarzer Tee',0.88,'allowed'],['Mandarine',0.91,'allowed'],['Kuhmilchkäse',0.93,'allowed'],['Paprika',0.96,'allowed'],['Huhn',0.98,'allowed'],['Erdbeere',1.03,'allowed'],['Gerste',1.04,'allowed'],['Marille/Aprikose',1.04,'allowed'],['Hafer',1.04,'allowed'],['Birne',1.06,'allowed'],['Lammfleisch',1.07,'allowed'],['Ei',1.07,'allowed'],['Linse',1.12,'allowed'],['Olivenöl',1.18,'allowed'],['Kirsche',1.19,'allowed'],
+['Weisse Bohne',1.68,'rare'],['Weisskraut',1.71,'rare'],['Apfel',1.74,'rare'],['Shrimp',1.95,'rare'],['Buchweizen',1.97,'rare'],['Ananas',1.99,'rare'],['Reis',2.01,'rare'],['Weintraube',2.12,'rare'],['Ente',2.20,'rare'],['Mais',2.44,'rare'],['Kuhmilch',2.44,'rare'],['Kartoffel',2.80,'rare'],['Orange',2.82,'rare'],
+['Roggen',3.59,'forbidden'],['Weisswein',4.52,'forbidden'],['Kakao',5.22,'forbidden'],['Rotwein',5.43,'forbidden'],['Hefe',5.70,'forbidden'],['Rindfleisch',6.18,'forbidden'],['Butter',6.81,'forbidden'],['Weizen',8.57,'forbidden'],['Schlagobers/Sahne',9.84,'forbidden'],['Bier',10.05,'forbidden'],['Schweinefleisch',15.45,'forbidden'],['Zucker',21.61,'forbidden'],['Cola/Energy Drink',46.11,'forbidden']
+].map(([name,score,status])=>({name,score,status}));
+const MACRO_DEFAULTS={
+'Lachs':[208,20,0,13], 'Brokkoli':[34,2.8,7,0.4], 'Spinat':[23,2.9,3.6,0.4], 'Huhn':[165,31,0,3.6], 'Truthahn':[135,29,0,1], 'Ei':[143,13,1.1,9.5], 'Reis':[130,2.7,28,0.3], 'Kartoffel':[77,2,17,0.1], 'Hafer':[389,17,66,7], 'Banane':[89,1.1,23,0.3], 'Apfel':[52,0.3,14,0.2], 'Olivenöl':[884,0,0,100], 'Butter':[717,0.9,0.1,81], 'Kuhmilch':[61,3.2,4.8,3.3], 'Kuhmilchkäse':[350,25,1.3,27], 'Thunfisch':[132,29,0,1], 'Rindfleisch':[250,26,0,17], 'Schweinefleisch':[242,27,0,14], 'Tomate':[18,0.9,3.9,0.2], 'Gurke':[15,0.7,3.6,0.1], 'Karotte':[41,0.9,10,0.2], 'Blumenkohl':[25,1.9,5,0.3], 'Lammfleisch':[294,25,0,21], 'Dorsch':[82,18,0,0.7], 'Forelle':[148,21,0,6.5], 'Hirse':[378,11,73,4.2], 'Buchweizen':[343,13,72,3.4], 'Mais':[86,3.2,19,1.2]
+};
+const STORAGE_KEY='foodTrackerState';
+function storageAvailable(){try{const k='__ft_test__';localStorage.setItem(k,'1');localStorage.removeItem(k);return true}catch(e){return false}}
+const HAS_STORAGE=storageAvailable();
+function loadState(){if(!HAS_STORAGE)return {meals:[],reactions:[],body:[]};try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')||{meals:[],reactions:[],body:[]}}catch(e){return {meals:[],reactions:[],body:[]}}}
+let state=loadState();let draft=[];
+function saveState(){if(HAS_STORAGE){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){showEnvWarning('Die Daten konnten auf diesem iPhone nicht lokal gespeichert werden. Bitte die App in Safari über eine HTTPS-Adresse öffnen.')}}renderAll()}
+function showEnvWarning(msg){const el=document.getElementById('envWarning');if(!el)return;el.innerHTML='<b>Hinweis für iPhone/Safari</b><div class="small" style="margin-top:6px">'+msg+'</div>';el.classList.remove('hidden')}
+function checkEnvironment(){if(location.protocol==='file:'){showEnvWarning('Diese Datei wurde direkt aus „Dateien/Downloads“ geöffnet. iOS führt solche Web-Apps nur eingeschränkt aus. Bitte die App über eine HTTPS-Adresse in Safari öffnen.')}else if(!window.isSecureContext){showEnvWarning('Die App läuft nicht in einem sicheren Browser-Kontext. Kamera, PWA und lokale Speicherung können eingeschränkt sein. Bitte über HTTPS in Safari öffnen.')}else if(!HAS_STORAGE){showEnvWarning('Lokale Speicherung ist in diesem Browser-Kontext blockiert. Bitte Safari verwenden und den privaten Modus deaktivieren.')}}
+const dkey=(d=new Date())=>{const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
+function fmtDate(s){return new Date(s+'T12:00:00').toLocaleDateString('de-CH',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function statusLabel(s){return s==='allowed'?'Erlaubt':s==='rare'?'Selten':'Verboten'}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1700)}
+function go(v){document.querySelectorAll('section[id^=view-]').forEach(e=>e.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');document.querySelectorAll('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));if(v==='camera')renderDraft();if(v==='profile'){renderReactionForm();renderFoodList();renderBodyHistory()}if(v==='analysis')renderAnalysis();if(v==='week')renderWeek()}
+function mealMacros(item){const d=MACRO_DEFAULTS[item.name]||[0,0,0,0],f=(item.grams||0)/100;return {kcal:d[0]*f,p:d[1]*f,c:d[2]*f,f:d[3]*f}}
+function sum(items){return items.reduce((a,i)=>{const m=mealMacros(i);a.kcal+=m.kcal;a.p+=m.p;a.c+=m.c;a.f+=m.f;return a},{kcal:0,p:0,c:0,f:0})}
+function renderToday(){const today=dkey();document.getElementById('todayLabel').textContent=new Date().toLocaleDateString('de-CH',{weekday:'long',day:'numeric',month:'long'});const meals=state.meals.filter(m=>m.date===today);const items=meals.flatMap(m=>m.items);const m=sum(items);document.getElementById('todayMetrics').innerHTML=[['kcal',Math.round(m.kcal)],['Protein',Math.round(m.p)+' g'],['Kohlenhydrate',Math.round(m.c)+' g'],['Fett',Math.round(m.f)+' g']].map(([l,v])=>`<div class=metric><b>${v}</b><span>${l}</span></div>`).join('');const r=state.reactions.find(r=>r.date===today);document.getElementById('morningCard').innerHTML=r?`<div class=spread><div><h2>Morgen-Check-in ✓</h2><div class=muted>Brain Fog ${r.brainfog}/10 · Konzentration ${r.concentration}/10 · Gesamtbefinden ${r.wellbeing}/10</div></div><button class="btn secondary" onclick="go('profile')">Ändern</button></div>`:`<div class=spread><div><h2>Morgen-Check-in</h2><div class=muted>Einmal täglich: Beschwerden, Brain Fog und Konzentration.</div></div><button class=btn onclick="go('profile')">Erfassen</button></div>`;document.getElementById('todayMeals').innerHTML=meals.length?meals.map(m=>`<div class=entry><div class=spread><b>${m.time}</b><span class=small>${m.items.length} Lebensmittel</span></div>${m.items.map(i=>`<div class=foodline><span>${i.name}</span><span>${i.grams} g · <span class="pill ${i.status}">${statusLabel(i.status)}</span></span></div>`).join('')}</div>`).join(''):`<div class=muted>Noch keine Mahlzeit erfasst.</div>`}
+function renderFoodPicker(){const q=(document.getElementById('foodSearch')?.value||'').toLowerCase();document.getElementById('foodPicker').innerHTML=FOODS.filter(f=>f.name.toLowerCase().includes(q)).slice(0,20).map(f=>`<button onclick='addFood(${JSON.stringify(f.name)})'><span>${f.name}</span><span class="pill ${f.status}">${statusLabel(f.status)}</span></button>`).join('')}
+function addFood(name){const f=FOODS.find(x=>x.name===name);draft.push({...f,grams:100});renderDraft();toast('Lebensmittel hinzugefügt')}
+function renderDraft(){const el=document.getElementById('draftMeal');if(!el)return;el.innerHTML=draft.length?draft.map((i,idx)=>`<div class=entry><div class=foodline><div><b>${i.name}</b><div class=foodmeta>${i.score==null?'Nicht in Testliste':'Testwert '+i.score.toFixed(2)+' · '+statusLabel(i.status)}</div></div><button class="btn danger" onclick="draft.splice(${idx},1);renderDraft()">×</button></div><label>Menge (g)</label><input type=number value="${i.grams}" min=1 inputmode=decimal onchange="draft[${idx}].grams=Number(this.value);renderDraft()">${MACRO_DEFAULTS[i.name]?`<div class=foodmeta>${(()=>{const m=mealMacros(i);return `${Math.round(m.kcal)} kcal · P ${Math.round(m.p)} g · KH ${Math.round(m.c)} g · F ${Math.round(m.f)} g`})()}</div>`:`<div class=foodmeta>Makrowerte für dieses Lebensmittel noch nicht hinterlegt.</div>`}</div>`).join(''):`<div class=muted>Noch keine Lebensmittel gewählt.</div>`;renderFoodPicker()}
+function saveMeal(){if(!draft.length){toast('Bitte Lebensmittel hinzufügen');return}const now=new Date();state.meals.push({id:Date.now(),date:dkey(now),time:now.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'}),items:JSON.parse(JSON.stringify(draft))});draft=[];document.getElementById('photoInput').value='';document.getElementById('photoPreview').classList.add('hidden');saveState();go('today');toast('Mahlzeit gespeichert')}
+function renderWeek(){const now=new Date(),day=(now.getDay()+6)%7,start=new Date(now);start.setDate(now.getDate()-day);start.setHours(0,0,0,0);const meals=state.meals.filter(m=>new Date(m.date+'T12:00')>=start),items=meals.flatMap(m=>m.items),agg={};items.forEach(i=>{agg[i.name]??={...i,count:0,grams:0};agg[i.name].count++;agg[i.name].grams+=Number(i.grams)||0});const arr=Object.values(agg).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));const known=arr.filter(i=>['allowed','rare','forbidden'].includes(i.status));const groups={allowed:known.filter(i=>i.status==='allowed'),rare:known.filter(i=>i.status==='rare'),forbidden:known.filter(i=>i.status==='forbidden')};document.getElementById('weekMetrics').innerHTML=`<div class="metric week-total"><b>${arr.length}</b><span>verschiedene Lebensmittel</span></div>`+[['allowed','Erlaubt'],['rare','Selten'],['forbidden','Verboten']].map(([k,l])=>`<div class="metric"><b>${groups[k].length}</b><span>${l}</span></div>`).join('');const col=(status,label)=>`<div class="week-col"><h3><span class="pill ${status}">${label}</span></h3>${groups[status].length?groups[status].map(i=>`<div class="week-food"><b>${i.name}</b><div class="foodmeta">${i.count}× · ${Math.round(i.grams)} g</div></div>`).join(''):`<div class="small muted">Keine</div>`}</div>`;document.getElementById('weekFoods').innerHTML=arr.length?col('allowed','Erlaubt')+col('rare','Selten')+col('forbidden','Verboten'):`<div class="muted" style="grid-column:1/-1">Diese Woche noch keine Daten.</div>`}
+
+const DISHES={
+  'ratatouille':[
+    {name:'Zucchetti',grams:120,status:'unknown'},
+    {name:'Tomate',grams:100},
+    {name:'Knoblauch',grams:8},
+    {name:'Paprika',grams:80},
+    {name:'Zwiebel',grams:40},
+    {name:'Olivenöl',grams:10}
+  ]
+};
+function decomposeDish(){const raw=(document.getElementById('dishName')?.value||'').trim();if(!raw){toast('Bitte Gericht eingeben');return}const key=raw.toLowerCase();const recipe=DISHES[key];if(!recipe){toast('In der Testversion ist aktuell Ratatouille hinterlegt');return}recipe.forEach(x=>{const f=FOODS.find(v=>v.name===x.name);if(f)draft.push({...f,grams:x.grams});else draft.push({name:x.name,score:null,status:'unknown',grams:x.grams});});renderDraft();toast(raw+' in Zutaten zerlegt')}
+
+const symptoms=['Blähungen','Völlegefühl','Bauchschmerzen','Verdauungsprobleme','Müdigkeit','Kopfschmerzen','Hautreaktion'];
+function renderReactionForm(){const today=dkey(),old=state.reactions.find(r=>r.date===today)||{date:today,brainfog:0,concentration:0,wellbeing:8,symptoms:{},note:''};let html=`<div class=notice>Einmal täglich am Morgen. Werte 0 = keine Beeinträchtigung, 10 = sehr stark. Beim Gesamtbefinden ist 10 = sehr gut.</div>`;html+=range('brainfog','Brain Fog',old.brainfog)+range('concentration','Konzentrationsschwierigkeit',old.concentration)+range('wellbeing','Gesamtbefinden',old.wellbeing);html+=`<h3 style="margin-top:16px">Weitere Beschwerden</h3>`+symptoms.map((s,i)=>range('sym'+i,s,old.symptoms?.[s]||0)).join('')+`<label>Notiz (optional)</label><textarea id=note rows=3>${old.note||''}</textarea><button class="btn full" style="margin-top:12px" onclick="saveReaction()">Morgen-Check-in speichern</button>`;document.getElementById('reactionForm').innerHTML=html;document.querySelectorAll('input[type=range]').forEach(r=>r.addEventListener('input',()=>document.getElementById(r.id+'Val').textContent=r.value))}
+function range(id,label,val){return `<label>${label}</label><div class=range-row><input id=${id} type=range min=0 max=10 value=${val}><div class=valuebox id=${id}Val>${val}</div></div>`}
+function saveReaction(){const today=dkey(),sym={};symptoms.forEach((s,i)=>sym[s]=Number(document.getElementById('sym'+i).value));const rec={date:today,brainfog:Number(document.getElementById('brainfog').value),concentration:Number(document.getElementById('concentration').value),wellbeing:Number(document.getElementById('wellbeing').value),symptoms:sym,note:document.getElementById('note').value.trim()};state.reactions=state.reactions.filter(r=>r.date!==today);state.reactions.push(rec);saveState();toast('Morgen-Check-in gespeichert');go('today')}
+function saveBody(){const w=Number(document.getElementById('weight').value),wa=Number(document.getElementById('waist').value);if(!w&&!wa){toast('Bitte mindestens einen Wert eingeben');return}state.body.push({date:dkey(),weight:w||null,waist:wa||null});saveState();document.getElementById('weight').value='';document.getElementById('waist').value='';renderBodyHistory();toast('Messung gespeichert')}
+function renderBodyHistory(){const el=document.getElementById('bodyHistory');if(!el)return;const arr=[...state.body].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);el.innerHTML=arr.length?arr.map(x=>`<div class=entry><div class=spread><b>${fmtDate(x.date)}</b><span>${x.weight?x.weight+' kg':''}${x.weight&&x.waist?' · ':''}${x.waist?x.waist+' cm':''}</span></div></div>`).join(''):`<div class=muted>Noch keine Körpermessung.</div>`}
+function renderAnalysis(){const cutoff=new Date();cutoff.setDate(cutoff.getDate()-29);cutoff.setHours(0,0,0,0);const meals=state.meals.filter(m=>new Date(m.date+'T12:00')>=cutoff),items=meals.flatMap(m=>m.items),mac=sum(items),days=new Set(meals.map(m=>m.date)).size||1;const counts={allowed:0,rare:0,forbidden:0};items.forEach(i=>counts[i.status]++);document.getElementById('analysisMetrics').innerHTML=[[meals.length,'Mahlzeiten'],[new Set(items.map(i=>i.name)).size,'Lebensmittel'],[Math.round(mac.p/days)+' g','Ø Protein/Tag'],[Math.round(mac.kcal/days),'Ø kcal/Tag']].map(([v,l])=>`<div class=metric><b>${v}</b><span>${l}</span></div>`).join('');const rs=state.reactions.filter(r=>new Date(r.date+'T12:00')>=cutoff),avg=k=>rs.length?(rs.reduce((a,r)=>a+Number(r[k]||0),0)/rs.length).toFixed(1):'–';document.getElementById('reactionSummary').innerHTML=rs.length?`<div class=grid><div class=metric><b>${avg('brainfog')}/10</b><span>Ø Brain Fog</span></div><div class=metric><b>${avg('concentration')}/10</b><span>Ø Konzentrationsprobleme</span></div><div class=metric><b>${avg('wellbeing')}/10</b><span>Ø Gesamtbefinden</span></div><div class=metric><b>${rs.length}</b><span>Check-ins</span></div></div>`:`<div class=muted>Noch keine Morgen-Check-ins.</div>`;const b=state.body.filter(x=>new Date(x.date+'T12:00')>=cutoff).sort((a,b)=>a.date.localeCompare(b.date));let txt='<div class=muted>Noch keine Körperdaten.</div>';if(b.length){const first=b[0],last=b[b.length-1],dw=first.weight&&last.weight?(last.weight-first.weight).toFixed(1):null,dwa=first.waist&&last.waist?(last.waist-first.waist).toFixed(1):null;txt=`<div class=grid><div class=metric><b>${last.weight??'–'} kg</b><span>aktuelles Gewicht ${dw!==null?'('+dw+' kg)':''}</span></div><div class=metric><b>${last.waist??'–'} cm</b><span>Bauchumfang ${dwa!==null?'('+dwa+' cm)':''}</span></div></div>`}document.getElementById('bodySummary').innerHTML=txt}
+function renderFoodList(){const q=(document.getElementById('listSearch')?.value||'').toLowerCase();document.getElementById('foodList').innerHTML=FOODS.filter(f=>f.name.toLowerCase().includes(q)).map(f=>`<div class=entry><div class=foodline><div><b>${f.name}</b><div class=foodmeta>Testwert ${f.score.toFixed(2)}</div></div><span class="pill ${f.status}">${statusLabel(f.status)}</span></div></div>`).join('')}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='food-tracker-export-'+dkey()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function resetData(){if(confirm('Wirklich alle Trackingdaten löschen? Die Lebensmittelliste bleibt erhalten.')){state={meals:[],reactions:[],body:[]};saveState();go('today')}}
+document.getElementById('photoInput').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const img=document.getElementById('photoPreview');try{const u=URL.createObjectURL(f);img.onload=()=>{try{URL.revokeObjectURL(u)}catch(_){}};img.src=u;img.classList.remove('hidden')}catch(_){showEnvWarning('Die Fotovorschau konnte in diesem Browser nicht geöffnet werden. Bitte die App über eine HTTPS-Adresse öffnen.') }});
+function renderAll(){renderToday();renderWeek();renderAnalysis();renderFoodPicker();renderDraft();renderReactionForm();renderBodyHistory();renderFoodList()}
+checkEnvironment();
+if('serviceWorker' in navigator && location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+renderAll();
+</script>
+</body>
+</html>
