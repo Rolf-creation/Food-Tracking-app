@@ -86,21 +86,23 @@ export default {
 
     const image = body?.image;
     const dishHint = typeof body?.dish_hint === "string" ? body.dish_hint.trim().slice(0, 160) : "";
-    if (typeof image !== "string" || !image.startsWith("data:image/")) {
-      return json({ error: "Kein gültiges Bild übermittelt" }, 400, cors);
+    const hasImage = typeof image === "string" && image.startsWith("data:image/");
+    if (!hasImage && !dishHint) {
+      return json({ error: "Bitte ein Foto oder den Namen einer verarbeiteten Speise übermitteln" }, 400, cors);
     }
-    if (image.length > 10_000_000) {
+    if (hasImage && image.length > 10_000_000) {
       return json({ error: "Bild ist zu gross" }, 413, cors);
     }
 
-    const parsedImage = parseDataUrl(image);
-    if (!parsedImage) {
+    const parsedImage = hasImage ? parseDataUrl(image) : null;
+    if (hasImage && !parsedImage) {
       return json({ error: "Bildformat konnte nicht verarbeitet werden" }, 400, cors);
     }
 
-    const prompt = `Analysiere dieses Foto einer Mahlzeit für ein persönliches Ernährungstagebuch.
+    const prompt = `${hasImage ? "Analysiere dieses Foto einer Mahlzeit" : `Analysiere die verarbeitete Speise \"${dishHint}\"`} für ein persönliches Ernährungstagebuch.
 
-${dishHint ? `Nutzerhinweis zum Gericht: "${dishHint}". Verwende diesen Hinweis, wenn er zum Bild passt. Zerlege dieses Gericht besonders sorgfältig in plausible Einzelzutaten.` : ""}
+${hasImage && dishHint ? `Nutzerhinweis zum Gericht: "${dishHint}". Verwende diesen Hinweis, wenn er zum Bild passt. Zerlege dieses Gericht besonders sorgfältig in plausible Einzelzutaten.` : ""}
+${!hasImage ? `Es liegt kein Foto vor. Rekonstruiere daher eine typische einzelne Portion dieses Gerichts anhand einer üblichen Rezeptzusammensetzung. Schätze plausible Mengen der einzelnen Zutaten so, dass sie zusammen eine realistische Portion ergeben. Kennzeichne Unsicherheiten über eine niedrigere confidence.` : ""}
 
 WICHTIG: Gemischte und verarbeitete Gerichte müssen in einzelne Zutaten zerlegt werden. Gib NICHT nur den Namen des Gerichts als Zutat zurück.
 
@@ -135,15 +137,17 @@ Qualitätsregeln:
       body: JSON.stringify({
         contents: [{
           role: "user",
-          parts: [
-            { text: prompt },
-            {
-              inline_data: {
-                mime_type: parsedImage.mimeType,
-                data: parsedImage.data
-              }
-            }
-          ]
+          parts: hasImage
+            ? [
+                { text: prompt },
+                {
+                  inline_data: {
+                    mime_type: parsedImage.mimeType,
+                    data: parsedImage.data
+                  }
+                }
+              ]
+            : [{ text: prompt }]
         }],
         generationConfig: {
           temperature: 0.2,
