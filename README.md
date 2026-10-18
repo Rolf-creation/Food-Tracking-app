@@ -81,12 +81,19 @@ Die Mengen und Nährwerte aus einem Foto bleiben Schätzungen. Besonders Öl, Sa
 - Gewicht und Bauchumfang als separate Verlaufcharts
 - Lokale Daten bleiben kompatibel: der bestehende localStorage-Key `foodTrackerState` wurde unverändert beibehalten
 
-## Version 10.2 – gemeinsamer KI-Analyseknopf
+## Version 10.3 – gemeinsamer KI-Analyseknopf
 - Ein einziger Button **«✨ Mit KI analysieren»** wird für beide Eingabearten verwendet.
 - Analyse ist möglich entweder mit Foto **oder** nur über das Feld «Analyse von verarbeiteten Speisen».
 - Bei Texteingabe ohne Foto rekonstruiert Gemini eine typische Portion und zerlegt sie in plausible Einzelzutaten.
 - Bestehende lokal gespeicherte Daten bleiben unverändert nutzbar; der Speicher-Schlüssel wurde nicht geändert.
 
 
-## Version 10.2
+## Version 10.3
 Bei der KI-Erfassung ist immer nur eine Eingabeart aktiv: Wird ein Foto gewählt, wird das Feld für verarbeitete Speisen automatisch geleert. Sobald dort Text eingegeben wird, wird ein bereits ausgewähltes Foto inklusive Vorschau entfernt. Beide Eingaben verwenden denselben Button „Mit KI analysieren“. Die lokalen Trackingdaten und der bestehende Speicherschlüssel bleiben unverändert.
+
+
+## Version 10.3
+- Der Button „Mit KI analysieren“ bleibt auf iPhone/Chrome/Safari sichtbar und wird je nach Eingabe aktiviert/deaktiviert.
+- Texteingaben reagieren zusätzlich auf input, change, keyup und paste, damit iOS-Eingabemethoden zuverlässig erkannt werden.
+- Foto und Texteingabe bleiben gegenseitig ausschliessend.
+- Der lokale Speicherschlüssel foodTrackerState bleibt unverändert.
