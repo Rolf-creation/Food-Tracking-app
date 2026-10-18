@@ -1,4 +1,4 @@
-# Mein Food Tracker – Version 9 mit Gemini-KI
+# Mein Food Tracker – Version 10 mit Gemini-KI
 
 Die Web-App läuft weiterhin statisch auf GitHub Pages. Persönliche Trackingdaten bleiben lokal im Browser. Für die KI-Bildanalyse wird ein Cloudflare Worker als sicherer Backend-Endpunkt verwendet. Der Gemini-API-Schlüssel liegt nur dort als Secret und **nicht** im GitHub-Repository.
 
@@ -61,3 +61,22 @@ Die Mengen und Nährwerte aus einem Foto bleiben Schätzungen. Besonders Öl, Sa
 - verbesserte Aufschlüsselung von verarbeiteten/gemischten Gerichten
 - Standardmodell: `gemini-3-flash-preview` (über `GEMINI_MODEL` änderbar)
 - bestehender `/analyze`-Endpunkt und `APP_TOKEN` bleiben unverändert
+
+
+## Stabilitaetsfix V9.1
+- `maxOutputTokens` auf 8192 erhoeht
+- Gemini Thinking auf `low` gesetzt
+- robustere JSON-Auswertung (mehrere Text-Parts, Code-Fences, Begleittext)
+- bessere Fehlermeldungen mit `finishReason` und Token-Nutzung
+
+
+## Version 10 – Auswertungen und Erfassung
+- Rubrik «Heute»: Trinkmenge als normale Kennzahl plus Aufteilung nach Wasser, Kaffee und Kräutertee
+- Rubrik «Woche»: immer die letzten 7 Tage einschliesslich heute, keine Kalenderwoche
+- «Selten» enthält in der Wochenansicht zusätzlich nicht zugeordnete Lebensmittel
+- Manuelle Erfassung beliebiger, nicht zugeordneter Lebensmittel möglich
+- Feld «Analyse von verarbeiteten Speisen» wieder aufgenommen und als Hinweis an Gemini übermittelt
+- 30-Tage-Analyse: Trinkmenge in derselben Kennzahlen-Darstellung
+- Reaktionsverlauf als Chart
+- Gewicht und Bauchumfang als separate Verlaufcharts
+- Lokale Daten bleiben kompatibel: der bestehende localStorage-Key `foodTrackerState` wurde unverändert beibehalten
